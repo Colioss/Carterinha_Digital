@@ -18,11 +18,8 @@ import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,7 +28,8 @@ import com.senai.carterinhadigital.R
 import com.senai.carterinhadigital.ui.theme.CarteirinhaDigitalTheme
 
 @Composable
-fun CarteirinhaScreen(modifier: Modifier = Modifier){
+fun CarteirinhaScreen(modifier: Modifier = Modifier,
+                      onBackClick: () -> Unit = {}){
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.wallpaper),
