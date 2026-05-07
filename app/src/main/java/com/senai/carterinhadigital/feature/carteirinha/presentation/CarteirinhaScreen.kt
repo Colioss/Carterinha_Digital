@@ -1,3 +1,5 @@
+package com.senai.carterinhadigital.feature.carteirinha.presentation
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -25,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rafaelcosta.carteirinhadigital_4devm_t1.feature.carteirinha.presentation.component.QrCode
 import com.senai.carterinhadigital.R
-import com.senai.carterinhadigital.ui.theme.CarteirinhaDigitalTheme
+import com.senai.carterinhadigital.core.designsystem.theme.CarteirinhaDigitalTheme
 
 @Composable
 fun CarteirinhaScreen(modifier: Modifier = Modifier,
@@ -65,55 +67,66 @@ fun CarteirinhaScreen(modifier: Modifier = Modifier,
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-
+                val offset = Offset(5.0f, 10.0f)
 
                 Text(
-                    buildAnnotatedString {
-
-                        append("Nome: ")
-
-                    }
+                    text = "Nome:",
+                    style = TextStyle(
+                        fontSize = 24.sp,
+                        color = Color.White,
+                        shadow = Shadow(
+                            color = Color.Red,
+                            offset = offset,
+                            blurRadius = 3f
+                        )
+                    )
                 )
+
                 Text(
-                    buildAnnotatedString {
-
-                        append("Gustavo Coelho")
-
-                    }
+                    text = "Gustavo Coelho",
+                    style = TextStyle(
+                        fontSize = 24.sp,
+                        color = Color.White,
+                        shadow = Shadow(
+                            color = Color.Red,
+                            offset = offset,
+                            blurRadius = 3f
+                        )
+                    )
                 )
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                @Composable
-                fun TextShadow() {
-                    val offset = Offset(5.0f, 10.0f)
-                    Text(
-                        text = "Curso: ",
-                        style = TextStyle(
-                            fontSize = 24.sp,
-                            shadow = Shadow(
-                                color = Color.Blue, offset = offset, blurRadius = 3f
-                            )
-                        )
-                    )
-                }
+                val offset = Offset(5.0f, 10.0f)
 
 
-                @Composable
-                fun TextShadods() {
-                    val offset = Offset(5.0f, 10.0f)
-                    Text(
-                        text = "Desenvolvimento de sistema",
-                        style = TextStyle(
-                            fontSize = 24.sp,
-                            shadow = Shadow(
-                                color = Color.Blue, offset = offset, blurRadius = 3f
-                            )
+                Text(
+                    text = "Curso:",
+                    style = TextStyle(
+                        fontSize = 24.sp,
+                        color = Color.White,
+                        shadow = Shadow(
+                            color = Color.Blue,
+                            offset = offset,
+                            blurRadius = 3f
                         )
                     )
-                }
+                )
+
+                Text(
+                    text = "Desenvolvimento de sistemas",
+                    style = TextStyle(
+                        fontSize = 24.sp,
+                        color = Color.White,
+                        shadow = Shadow(
+                            color = Color.Blue,
+                            offset = offset,
+                            blurRadius = 3f
+                        )
+                    )
+                )
             }
             QrCode(
                 "90000000001756464093",

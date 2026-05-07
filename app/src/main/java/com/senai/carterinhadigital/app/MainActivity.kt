@@ -13,6 +13,5 @@ class MainActivity : ComponentActivity() {
             App()
         }
     }
-
-
 }
+

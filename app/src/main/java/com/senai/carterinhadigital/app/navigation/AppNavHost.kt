@@ -15,9 +15,7 @@ fun AppNavHost() {
         startDestination = Routes.Login
     ) {
         authScreen(
-            onNavigateToCarteirinha = {
-                navController.navigate(Routes.Carteirinha)
-            }
+             navController
         )
         carteirinhaScreen(
             onNavigateToLogin = {
