@@ -67,7 +67,7 @@ fun LoginScreen(
             onClick = {
                 if (login == "admin" && senha == "1234") {
                     erro = false
-                    navController.navigate(Routes.Carteirinha)
+                    navController.navigate(Routes.Home)
 
                 } else {
                     erro = true
