@@ -1,4 +1,4 @@
-package com.senai.carterinhadigital.feature.auth.presentation
+package com.senai.carterinhadigital.feature.login.presentation.screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement

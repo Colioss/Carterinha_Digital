@@ -10,6 +10,7 @@ kotlin = "2.0.21"
 composeBom = "2024.09.00"
 zxing = "3.5.3"
 material3 = "1.4.0"
+coreKtxVersion = "1.19.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -29,8 +30,10 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 
 zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtxVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 

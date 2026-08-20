@@ -1,10 +1,10 @@
-package com.senai.carterinhadigital.feature.auth.navigation
+package com.senai.carterinhadigital.feature.login.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.senai.carterinhadigital.app.navigation.Routes
-import com.senai.carterinhadigital.feature.auth.presentation.LoginScreen
+import com.senai.carterinhadigital.feature.login.presentation.screen.LoginScreen
 
 fun NavGraphBuilder.authScreen(
     navController: NavController
