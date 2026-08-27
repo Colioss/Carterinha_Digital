@@ -35,16 +35,27 @@ class LoginViewModel (
                         errorMessage = null
                     )
                 }
-            } LoginEvent.OnEntrarClick -> fazerLogin()
+            }
+
+            LoginEvent.OnEntrarClick -> fazerLogin()
+
+            LoginEvent.OnNavegacaoRealizada -> {
+                _uiState.update {
+                    it.copy(
+                        usuarioLogado = null
+                    )
+                }
+
+            }
         }
     }
 
     private fun fazerLogin() {
         val state = _uiState.value
 
-        if(state.usuario.isBlank() || state.senha.isBlank()){
-            _uiState.update{
-                state -> state.copy(
+        if (state.usuario.isBlank() || state.senha.isBlank()) {
+            _uiState.update { state ->
+                state.copy(
                     errorMessage = "Preencha login e senha"
                 )
             }
@@ -58,10 +69,29 @@ class LoginViewModel (
                     usuarioLogado = null
                 )
             }
-        }
+
         val result = repository.login(
             state.usuario.trim(),
             state.senha.trim()
         )
+
+        result
+            .onSuccess { usuarioLogado ->
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = null,
+                        usuarioLogado = usuarioLogado
+                    )
+                }
+            }
+            .onFailure { throwable ->
+                _uiState.update {
+                    it.copy(
+                        errorMessage = throwable.message?:"Erro ao Fazer Login."
+                    )
+                }
+            }
     }
+}
 }

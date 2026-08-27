@@ -13,6 +13,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,103 +22,35 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.senai.carterinhadigital.app.navigation.Routes
 import com.senai.carterinhadigital.core.designsystem.theme.CarteirinhaDigitalTheme
+import com.senai.carterinhadigital.feature.login.domain.model.UsuarioLogado
+import com.senai.carterinhadigital.feature.login.presentation.LoginEvent
+import com.senai.carterinhadigital.feature.login.presentation.LoginViewModel
 
 
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    navController: NavController
+    onLoginSucesso: (UsuarioLogado)->Unit,
+    viewModel: LoginViewModel = viewModel()
 ) {
-    var login by remember { mutableStateOf("") };
-    var senha by remember { mutableStateOf("") };
-    var erro by remember { mutableStateOf(false)};
-    var email by remember {mutableStateOf("Email")};
-    var emailsenha by remember{mutableStateOf("Senha")}
-    Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("Login")
-        TextField(
-            value = login,
-            onValueChange = { login = it
-                            erro = false
-                            email = "Email"
-                            emailsenha = "Senha"},
-            label = { Text(email) },
-            isError = erro
-        )
 
-        OutlinedTextField(
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-            value = senha,
-            onValueChange = { senha = it
-                              erro = false
-                              email = "Email"
-                              emailsenha = "Senha"},
-            label = { Text(emailsenha) },
-            isError = erro
-
-        )
-        Button(
-            onClick = {
-                if (login == "admin" && senha == "1234") {
-                    erro = false
-                    navController.navigate(Routes.Home)
-
-                } else {
-                    erro = true
-                    email = "Email ou Senha incorretos"
-                    emailsenha = email
-
-
-                }
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary
-            ),
-            modifier = Modifier
-                .width(200.dp),
-            shape = RoundedCornerShape(size = 5.dp),
-            border = BorderStroke(
-                width = 4.dp,
-                color = MaterialTheme.colorScheme.onPrimary
-            )
-        ) {
-            Text("Entrar")
+    LaunchedEffect(uiState.usuarioLogado) {
+        uiState.usuarioLogado?.let{ usuario->
+            viewModel.OnEvent(LoginEvent.OnNavegacaoRealizada)
+            onLoginSucesso(usuario)
         }
     }
-}
 
-@Preview(
-    showSystemUi = true,
-    showBackground = true
-)
-@Composable
-fun LoginScreenPreviewDark() {
-    CarteirinhaDigitalTheme(
-        darkTheme = true
-    ) {
-        //  LoginScreen()
-    }
-
-}
-
-@Preview(
-    showSystemUi = true,
-    showBackground = true
-)
-@Composable
-fun LoginScreenPreview() {
-    CarteirinhaDigitalTheme(
-        darkTheme = false
-    ) {
-        //LoginScreen()
-    }
-
+    LoginContent(
+        uiState = uiState,
+        onEvent = viewModel::OnEvent,
+        modifier = modifier.fillMaxSize()
+    )
 }
