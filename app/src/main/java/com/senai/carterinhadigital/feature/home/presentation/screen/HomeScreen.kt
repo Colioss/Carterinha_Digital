@@ -13,15 +13,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.senai.carterinhadigital.app.navigation.Routes
+import com.senai.carterinhadigital.feature.login.domain.model.UsuarioLogado
 
 @Composable
-fun homeScreen(
-    onCarteirinhaClick: () -> Unit,
-    onUnidadeCurricularClick: () -> Unit
-) {
+fun HomeScreen(
+    navController: NavController = NavController(
+        LocalContext.current
+    ),
+    modifier: Modifier = Modifier,
+    usuarioLogado: UsuarioLogado
+)
+{
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -31,16 +39,28 @@ fun homeScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(text = "Bem-vindo, Usuário.", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+            Text(text = "Bem-vindo, ${usuarioLogado.nome}", fontSize = 24.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(8.dp))
-            Button(onClick = onCarteirinhaClick,modifier = Modifier.size(width = 200.dp, height = 60.dp, ), shape = RoundedCornerShape(16.dp) ) {
+            Button(
+                onClick = {
+                    navController.navigate(Routes.Carteirinha.route)
+                },
+                modifier = Modifier.size(
+                    width = 200.dp,
+                    height = 60.dp,
+                    ),
+                shape = RoundedCornerShape(16.dp)
+            ) {
                 Text("Ir para Carteirinha", fontSize = 18.sp, fontWeight = FontWeight.Bold)
             }
 
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Button(onClick = onUnidadeCurricularClick,    modifier = Modifier.size(width = 200.dp, height = 60.dp), shape = RoundedCornerShape(16.dp) ) {
+            Button(onClick = {
+                navController.navigate(Routes.UCAluno.route)
+            },
+                modifier = Modifier.size(width = 200.dp, height = 60.dp), shape = RoundedCornerShape(16.dp) ) {
                 Text(text = "Ir para Unidades Curriculares", fontSize = 18.sp, fontWeight = FontWeight.Bold)
             }
         }
