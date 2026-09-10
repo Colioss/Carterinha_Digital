@@ -1,15 +1,20 @@
 package com.senai.carterinhadigital.app.navigation
-import kotlinx.serialization.Serializable
 
-sealed class Routes (val route: String){
+object Routes {
 
-    @Serializable
-    data object Login : Routes("login")
-    @Serializable
-    data object Carteirinha : Routes("carteirinha")
-    @Serializable
-    data object HomeAluno : Routes("homeAluno")
-    @Serializable
-    data object UCAluno : Routes("ucAluno")
+    object Login {
+        const val route = "login"
+    }
 
+    object Carteirinha {
+        const val route = "carteirinha"
+    }
+
+    object HomeAluno {
+        const val route = "homeAluno"
+    }
+
+    object UCAluno {
+        const val route = "ucAluno"
+    }
 }

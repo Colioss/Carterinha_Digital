@@ -83,7 +83,9 @@ fun LoginContent(
                     strokeWidth = 2.dp
                 )
             } else {
-                Text("Entrar")
+                Text("Entrar",
+                    color = Color.White
+                )
             }
         }
     }
