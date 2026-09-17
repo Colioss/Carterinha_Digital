@@ -1,25 +1,72 @@
 package com.senai.carterinhadigital.feature.unidadecurricular.presentation.screen
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.LineHeightStyle.Alignment
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.senai.carterinhadigital.feature.unidadecurricular.domain.model.UnidadeCurricular
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+
+import com.senai.carterinhadigital.feature.unidadecurricular.presentation.UnidadeCurricularViewModel
 import com.senai.carterinhadigital.feature.unidadecurricular.presentation.component.UnidadeCurricularCard
 
 @Composable
-fun UnidadeCurricularContent(modifier : Modifier = Modifier, unidadesCurriculares: List<UnidadeCurricular>) {
+fun UnidadeCurricularContent(modifier : Modifier = Modifier,
+                             viewModel: UnidadeCurricularViewModel = viewModel(),
+                             token: String) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    when {
+        uiState.isLoading -> {
+            Box(
+                modifier = modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+
+            ){
+                CircularProgressIndicator()
+
+            }
+        }
+        uiState.errorMensage != null ->{
+            Column(modifier = modifier.fillMaxSize()
+                .padding(24.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(text = uiState.errorMensage,
+                    color = MaterialTheme.colorScheme.error)
+                Button(
+                    modifier = Modifier.padding(16.dp),
+                    onClick = {viewModel.carregar(token)}
+
+                ){
+                    Text(text = "Tentar Novamente")
+                }
+
+
+            }
+        }
+    }
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {items (unidadesCurriculares) { unidadeCurricular ->
+    ) {
+
+        items (uiState.listaUnidades) { unidadeCurricular ->
         UnidadeCurricularCard(unidadeCurricular = unidadeCurricular)
     }
     }
@@ -29,9 +76,6 @@ fun UnidadeCurricularContent(modifier : Modifier = Modifier, unidadesCurriculare
 )@Composable
 fun UnidadeCurricularContentPreview() {
   UnidadeCurricularContent(
-      unidadesCurriculares = listOf(
-          UnidadeCurricular(id = "1", nome = "Matemática", professor = "Dr. Silva", nota1 = 8.5, nota2 = 7.0, media = 7.75, faltas = 2),
-          UnidadeCurricular(id = "2", nome = "Português", professor = "Dr. Pablo", nota1 = 8.5, nota2 = 7.0, media = 7.75, faltas = 0),
-          UnidadeCurricular(id = "3", nome = "História", professor = "Dr. Hamood", nota1 = 8.5, nota2 = 7.0, media = 7.75, faltas = 1)
-  ) )
+      token = "fake"
+   )
 }

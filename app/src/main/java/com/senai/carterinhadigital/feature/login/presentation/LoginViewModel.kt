@@ -88,7 +88,8 @@ class LoginViewModel (
             .onFailure { throwable ->
                 _uiState.update {
                     it.copy(
-                        errorMessage = throwable.message?:"Erro ao Fazer Login."
+                        isLoading = false,
+                        errorMessage = throwable.message ?: "Erro ao Fazer Login."
                     )
                 }
             }

@@ -15,7 +15,7 @@ class ApiAuthRepositoryImpl(
 
     override suspend fun login(usuario: String, senha: String): Result<UsuarioLogado> {
         return runCatching {
-            val response = api.login(LoginRequestDto(usuario = usuario, senha = senha))
+            val response = api.login(LoginRequestDto(login = usuario, senha = senha))
             UsuarioLogado(
                 id = response.id,
                 nome = response.nome,

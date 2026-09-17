@@ -1,6 +1,7 @@
 package com.senai.carterinhadigital.feature.login.data.remote.network
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.senai.carterinhadigital.feature.login.data.remote.service.AuthApi
+import com.senai.carterinhadigital.feature.unidadecurricular.data.remote.service.UnidadeCurricularApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -29,6 +30,12 @@ object NetworkFactory {
             .build()
 
         return retrofit.create(AuthApi::class.java)
+    }
+
+    fun createUnidadeCurricularApi(
+        baseUrl: String = BASE_URL
+    ): UnidadeCurricularApi {
+        return createRe
     }
 
 }
