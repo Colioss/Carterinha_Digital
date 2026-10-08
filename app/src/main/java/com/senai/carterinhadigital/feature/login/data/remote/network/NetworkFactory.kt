@@ -35,7 +35,13 @@ object NetworkFactory {
     fun createUnidadeCurricularApi(
         baseUrl: String = BASE_URL
     ): UnidadeCurricularApi {
-        return createRe
+        val retrofit = Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .client(client)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
+
+        return retrofit.create(UnidadeCurricularApi::class.java)
     }
 
 }

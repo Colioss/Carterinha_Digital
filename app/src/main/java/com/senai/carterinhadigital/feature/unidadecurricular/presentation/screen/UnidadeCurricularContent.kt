@@ -12,70 +12,79 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.LineHeightStyle.Alignment
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-
-import com.senai.carterinhadigital.feature.unidadecurricular.presentation.UnidadeCurricularViewModel
+import com.senai.carterinhadigital.feature.unidadecurricular.presentation.UnidadeCurricularUiState
 import com.senai.carterinhadigital.feature.unidadecurricular.presentation.component.UnidadeCurricularCard
 
 @Composable
-fun UnidadeCurricularContent(modifier : Modifier = Modifier,
-                             viewModel: UnidadeCurricularViewModel = viewModel(),
-                             token: String) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+fun UnidadeCurricularContent(
+    uiState: UnidadeCurricularUiState,
+    onRetry: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val errorMessage = uiState.errorMessage
+
     when {
         uiState.isLoading -> {
             Box(
                 modifier = modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
-
-            ){
+            ) {
                 CircularProgressIndicator()
-
             }
         }
-        uiState.errorMensage != null ->{
-            Column(modifier = modifier.fillMaxSize()
-                .padding(24.dp),
+
+        errorMessage != null -> {
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(24.dp),
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = uiState.errorMensage,
-                    color = MaterialTheme.colorScheme.error)
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = errorMessage,
+                    color = MaterialTheme.colorScheme.error
+                )
                 Button(
-                    modifier = Modifier.padding(16.dp),
-                    onClick = {viewModel.carregar(token)}
-
-                ){
-                    Text(text = "Tentar Novamente")
+                    modifier = Modifier.padding(top = 16.dp),
+                    onClick = onRetry
+                ) {
+                    Text("Tentar novamente")
                 }
+            }
+        }
 
+        uiState.unidades.isEmpty() -> {
+            Box(
+                modifier = modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text("Nenhuma unidade curricular encontrada.")
+            }
+        }
 
+        else -> {
+            LazyColumn(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(
+                        horizontal = 16.dp,
+                        vertical = 12.dp
+                    ),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(
+                    items = uiState.unidades,
+                    key = { it.id }
+                ) { unidadeCurricular ->
+                    UnidadeCurricularCard(
+                        unidadeCurricular = unidadeCurricular
+                    )
+                }
             }
         }
     }
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-
-        items (uiState.listaUnidades) { unidadeCurricular ->
-        UnidadeCurricularCard(unidadeCurricular = unidadeCurricular)
-    }
-    }
-} @Preview(
-    showBackground = true,
-    showSystemUi = true
-)@Composable
-fun UnidadeCurricularContentPreview() {
-  UnidadeCurricularContent(
-      token = "fake"
-   )
 }

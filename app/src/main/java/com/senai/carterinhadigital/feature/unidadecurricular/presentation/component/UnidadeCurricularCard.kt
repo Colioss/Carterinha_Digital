@@ -18,37 +18,49 @@ import com.senai.carterinhadigital.feature.unidadecurricular.domain.model.Unidad
 
 
 @Composable
-fun UnidadeCurricularCard(modifier: Modifier = Modifier, unidadeCurricular: UnidadeCurricular) {
-    Card(shape = RoundedCornerShape( size = 10.dp),
+fun UnidadeCurricularCard(
+    modifier: Modifier = Modifier,
+    unidadeCurricular: UnidadeCurricular
+) {
+    Card(
+        shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
-
-
     ) {
         Column(
-            modifier = Modifier.padding( 16.dp),
+            modifier = Modifier
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-            Text(text = unidadeCurricular.nome, style = MaterialTheme.typography.titleLarge)
+        ) {
+            Text(
+                text = unidadeCurricular.nome,
+                style = MaterialTheme.typography.titleLarge
+            )
             Text(
                 text = "Professor: ${unidadeCurricular.professor}",
                 style = MaterialTheme.typography.bodyMedium
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween) {
-                Text("N1: ${unidadeCurricular.nota1}")
-                Text("N2: ${unidadeCurricular.nota2}")
-                Text("Média ${unidadeCurricular.media}")
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(text = "N1: ${unidadeCurricular.nota1}")
+                Text(text = "N2: ${unidadeCurricular.nota2}")
+                Text(text = "Média: ${unidadeCurricular.media}")
             }
-            Text(text="Faltas:${unidadeCurricular.faltas}", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary)
+            Text(
+                text = "Faltas: ${unidadeCurricular.faltas}",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
         }
     }
 }
-
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true
+)
 @Composable
 fun UnidadeCurricularCardPreview() {
     UnidadeCurricularCard(
@@ -61,6 +73,5 @@ fun UnidadeCurricularCardPreview() {
             media = 7.75,
             faltas = 2
         )
-
     )
 }

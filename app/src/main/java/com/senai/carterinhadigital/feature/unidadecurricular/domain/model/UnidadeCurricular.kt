@@ -1,6 +1,5 @@
 package com.senai.carterinhadigital.feature.unidadecurricular.domain.model
-
-data class UnidadeCurricular (
+data class UnidadeCurricular(
     val id: String,
     val nome: String,
     val professor: String,

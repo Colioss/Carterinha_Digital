@@ -1,8 +1,11 @@
 package com.senai.carterinhadigital.feature.unidadecurricular.data.remote.dto
 
 import com.senai.carterinhadigital.feature.unidadecurricular.domain.model.UnidadeCurricular
+import kotlinx.serialization.Serializable
 
-class UnidadeCurricularDTO(
+
+@Serializable
+data class UnidadeCurricularDto(
     val id: String,
     val nome: String,
     val professor: String,
@@ -10,8 +13,8 @@ class UnidadeCurricularDTO(
     val nota2: Double,
     val media: Double,
     val faltas: Int
-)
-{
+) {
+
     fun toDomain(): UnidadeCurricular {
         return UnidadeCurricular(
             id = id,
@@ -22,6 +25,5 @@ class UnidadeCurricularDTO(
             media = media,
             faltas = faltas
         )
-
     }
 }

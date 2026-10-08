@@ -22,6 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Carterinha Digital"
-
+rootProject.name = "Carteirinha Digital 2DEVEST"
 include(":app")

@@ -24,13 +24,17 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.rafaelcosta.carteirinhadigital_4devm_t1.feature.carteirinha.presentation.component.QrCode
 import com.senai.carterinhadigital.R
 import com.senai.carterinhadigital.core.designsystem.theme.CarteirinhaDigitalTheme
+import com.senai.carterinhadigital.feature.carteirinha.presentation.component.QrCode
+import com.senai.carterinhadigital.feature.login.domain.model.UsuarioLogado
 
 @Composable
-fun CarteirinhaScreen(modifier: Modifier = Modifier,
-                      onBackClick: () -> Unit = {}){
+fun CarteirinhaScreen(
+    modifier: Modifier = Modifier,
+    usuarioLogado: UsuarioLogado? = null,
+    onBackClick: () -> Unit = {}
+) {
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.wallpaper),
@@ -82,7 +86,7 @@ fun CarteirinhaScreen(modifier: Modifier = Modifier,
                 )
 
                 Text(
-                    text = "Gustavo Coelho",
+                    text = usuarioLogado?.nome ?: "Gustavo Coelho",
                     style = TextStyle(
                         fontSize = 24.sp,
                         color = Color.White,
@@ -115,7 +119,7 @@ fun CarteirinhaScreen(modifier: Modifier = Modifier,
                 )
 
                 Text(
-                    text = "Desenvolvimento de sistemas",
+                    text = usuarioLogado?.curso ?: "Desenvolvimento de sistemas",
                     style = TextStyle(
                         fontSize = 24.sp,
                         color = Color.White,
