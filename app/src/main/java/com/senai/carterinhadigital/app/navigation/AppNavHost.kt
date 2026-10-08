@@ -78,6 +78,8 @@ fun AppNavHost(
 
             LoginScreen(
                 viewModel = loginViewModel,
+                darkTheme = darkTheme,
+                onDarkThemeChange = onDarkThemeChange,
                 onLoginSucesso = { usuario ->
                     sessionViewModel.setUsuarioLogado(usuario)
 

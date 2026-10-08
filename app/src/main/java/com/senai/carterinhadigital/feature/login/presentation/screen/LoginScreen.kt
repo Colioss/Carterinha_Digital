@@ -1,48 +1,27 @@
 package com.senai.carterinhadigital.feature.login.presentation.screen
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import com.senai.carterinhadigital.app.navigation.Routes
-import com.senai.carterinhadigital.core.designsystem.theme.CarteirinhaDigitalTheme
 import com.senai.carterinhadigital.feature.login.domain.model.UsuarioLogado
 import com.senai.carterinhadigital.feature.login.presentation.LoginEvent
 import com.senai.carterinhadigital.feature.login.presentation.LoginViewModel
 
-
 @Composable
 fun LoginScreen(
-    modifier: Modifier = Modifier,
-    onLoginSucesso: (UsuarioLogado)->Unit,
+    modifier: androidx.compose.ui.Modifier = androidx.compose.ui.Modifier,
+    onLoginSucesso: (UsuarioLogado) -> Unit,
+    darkTheme: Boolean,
+    onDarkThemeChange: (Boolean) -> Unit,
     viewModel: LoginViewModel = viewModel()
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(uiState.usuarioLogado) {
-        uiState.usuarioLogado?.let{ usuario->
+        uiState.usuarioLogado?.let { usuario ->
             viewModel.OnEvent(LoginEvent.OnNavegacaoRealizada)
             onLoginSucesso(usuario)
         }
@@ -51,6 +30,8 @@ fun LoginScreen(
     LoginContent(
         uiState = uiState,
         onEvent = viewModel::OnEvent,
-        modifier = modifier.fillMaxSize()
+        darkTheme = darkTheme,
+        onDarkThemeChange = onDarkThemeChange,
+        modifier = modifier
     )
 }
