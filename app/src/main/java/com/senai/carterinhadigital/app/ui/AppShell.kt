@@ -76,7 +76,7 @@ fun AppShell(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.perfilgatinho),
+                        painter = painterResource(id = R.drawable.login),
                         contentDescription = "Avatar do usuário",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -98,7 +98,7 @@ fun AppShell(
                     )
 
                     Text(
-                        text = "Matrícula ${usuarioLogado.id}",
+                        text = "Matrícula ${usuarioLogado.matricula}",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )

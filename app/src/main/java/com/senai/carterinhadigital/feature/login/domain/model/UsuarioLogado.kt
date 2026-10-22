@@ -1,10 +1,11 @@
 package com.senai.carterinhadigital.feature.login.domain.model
 
-class UsuarioLogado (
+data class UsuarioLogado(
     val id: String,
-            val nome: String,
-                    val curso: String,
-                            val turma: String,
-                                    val token: String
-
-    )
+    val nome: String,
+    val matricula: String,
+    val perfil: PerfilAcesso,
+    val curso: String,
+    val turma: String,
+    val token: String
+)

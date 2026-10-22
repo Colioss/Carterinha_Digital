@@ -1,0 +1,73 @@
+package com.senai.carterinhadigital.feature.login.data.repository
+
+import com.senai.carterinhadigital.feature.login.domain.model.PerfilAcesso
+import com.senai.carterinhadigital.feature.login.domain.model.UsuarioLogado
+import kotlinx.coroutines.delay
+
+class FakeAuthRepository : LoginRepository {
+
+    override suspend fun login(
+        usuario: String,
+        senha: String
+    ): Result<UsuarioLogado> {
+
+        delay(1500)
+
+        if (senha != "123") {
+
+            return Result.failure(
+                IllegalArgumentException(
+                    "Login ou senha inválidos"
+                )
+            )
+        }
+
+        return when {
+
+            usuario.equals(
+                "aluno",
+                ignoreCase = true
+            ) -> {
+
+                Result.success(
+                    UsuarioLogado(
+                        id = "1",
+                        nome = "Rafael Costa",
+                        matricula = "2026000001",
+                        perfil = PerfilAcesso.ALUNO,
+                        curso = "Desenvolvimento de Sistemas",
+                        turma = "2DEVEST-A",
+                        token = "token-fake-aluno"
+                    )
+                )
+            }
+
+            usuario.equals(
+                "professor",
+                ignoreCase = true
+            ) -> {
+
+                Result.success(
+                    UsuarioLogado(
+                        id = "2",
+                        nome = "Professor Modelo",
+                        matricula = "PROF20260001",
+                        perfil = PerfilAcesso.PROFESSOR,
+                        curso = "",
+                        turma = "",
+                        token = "token-fake-professor"
+                    )
+                )
+            }
+
+            else -> {
+
+                Result.failure(
+                    IllegalArgumentException(
+                        "Login ou senha inválidos"
+                    )
+                )
+            }
+        }
+    }
+}

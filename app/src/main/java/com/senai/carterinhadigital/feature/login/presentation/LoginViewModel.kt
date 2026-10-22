@@ -2,41 +2,39 @@ package com.senai.carterinhadigital.feature.login.presentation
 import kotlinx.coroutines.flow.MutableStateFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.senai.carterinhadigital.feature.login.data.repository.FakeLoginRepositoryImpl
 import com.senai.carterinhadigital.feature.login.data.repository.LoginRepository
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class LoginViewModel (
-    private val repository: LoginRepository = FakeLoginRepositoryImpl()
-
-): ViewModel() {
+class LoginViewModel(
+    private val repository: LoginRepository
+) : ViewModel() {
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
 
-    fun OnEvent(event: LoginEvent) {
+    fun onEvent(event: LoginEvent) {
+
         when (event) {
-            is LoginEvent.OnUsuarioChange -> {
+            is LoginEvent.OnUsuarioChange ->{
                 _uiState.update { state ->
                     state.copy(
                         usuario = event.value,
-                        errorMessage = null
+                        errorMessage = null,
+                        credentialError = false
                     )
                 }
-
             }
-
             is LoginEvent.OnSenhaChange -> {
                 _uiState.update { state ->
                     state.copy(
                         senha = event.value,
-                        errorMessage = null
+                        errorMessage = null,
+                        credentialError = false
                     )
                 }
             }
-
             LoginEvent.OnEntrarClick -> fazerLogin()
 
             LoginEvent.OnNavegacaoRealizada -> {
@@ -45,54 +43,61 @@ class LoginViewModel (
                         usuarioLogado = null
                     )
                 }
-
             }
         }
+
     }
 
     private fun fazerLogin() {
         val state = _uiState.value
 
-        if (state.usuario.isBlank() || state.senha.isBlank()) {
-            _uiState.update { state ->
-                state.copy(
-                    errorMessage = "Preencha login e senha"
+        if(state.usuario.isBlank() || state.senha.isBlank()){
+            _uiState.update {
+                it.copy(
+                    errorMessage = "Preencha login e senha",
+                    credentialError = true
                 )
             }
             return
         }
+
         viewModelScope.launch {
             _uiState.update {
                 it.copy(
                     isLoading = true,
                     errorMessage = null,
+                    credentialError = false,
                     usuarioLogado = null
                 )
             }
+            val result = repository.login(
+                state.usuario.trim(),
+                state.senha.trim()
+            )
 
-        val result = repository.login(
-            state.usuario.trim(),
-            state.senha.trim()
-        )
+            result
+                .onSuccess { usuarioLogado ->
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            errorMessage = null,
+                            credentialError = false,
+                            usuarioLogado = usuarioLogado
+                        )
+                    }
+                }
+                .onFailure { throwable ->
+                    val errorMessage = throwable.message ?: "Erro ao fazer login."
+                    val isCredentialError = errorMessage.contains("login ou senha", ignoreCase = true)
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            errorMessage = errorMessage,
+                            credentialError = isCredentialError
+                        )
+                    }
 
-        result
-            .onSuccess { usuarioLogado ->
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        errorMessage = null,
-                        usuarioLogado = usuarioLogado
-                    )
                 }
-            }
-            .onFailure { throwable ->
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        errorMessage = throwable.message ?: "Erro ao Fazer Login."
-                    )
-                }
-            }
+        }
     }
-}
 }

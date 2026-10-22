@@ -3,8 +3,8 @@ package com.senai.carterinhadigital.feature.login.data.repository
 import com.senai.carterinhadigital.feature.login.data.remote.dto.ErrorResponseDto
 import com.senai.carterinhadigital.feature.login.data.remote.dto.LoginRequestDto
 import com.senai.carterinhadigital.feature.login.data.remote.service.AuthApi
+import com.senai.carterinhadigital.feature.login.domain.model.PerfilAcesso
 import com.senai.carterinhadigital.feature.login.domain.model.UsuarioLogado
-
 import kotlinx.serialization.json.Json
 import retrofit2.HttpException
 import java.io.IOException
@@ -19,6 +19,8 @@ class ApiAuthRepositoryImpl(
             UsuarioLogado(
                 id = response.id,
                 nome = response.nome,
+                matricula = response.matricula,
+                perfil = PerfilAcesso.fromApi(response.perfil),
                 curso = response.curso,
                 turma = response.turma,
                 token = response.token
